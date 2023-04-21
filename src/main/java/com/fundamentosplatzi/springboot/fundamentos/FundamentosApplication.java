@@ -55,13 +55,46 @@ public class FundamentosApplication implements CommandLineRunner {
 	}
 
 	private void getInformationJpqlFromUser(){
-		LOGGER.info("User with method findByUserEmail" +
-				userRepository.findByUserEmail("daniela@google.com")
-						.orElseThrow( () -> new RuntimeException("It was not found user") ));
+//		LOGGER.info("User with method findByUserEmail" +
+//				userRepository.findByUserEmail("daniela@google.com")
+//						.orElseThrow( () -> new RuntimeException("It was not found user") ));
+//
+//		userRepository.findAndSort("user", Sort.by("id").ascending())
+//				.stream()
+//				.forEach(user -> LOGGER.info("user with method sort " + user));
+//
+//		userRepository.findByName("Luis")
+//				.stream()
+//				.forEach( user -> LOGGER.info("User with query method " + user) );
+//
+//		LOGGER.info("User with query method findByEmailAndName " + userRepository.findByEmailAndName("daniela@google.com", "Daniela")
+//				.orElseThrow( () -> new RuntimeException( "User not found" ) ));
+//
+//		userRepository.findByNameLike("%u%")
+//				.stream()
+//				.forEach( user -> LOGGER.info("user findByNameLike " + user) );
+//
+//		userRepository.findByNameOrEmail("user5", "user10@google.com")
+//				.stream()
+//				.forEach( user -> LOGGER.info("user findByNameOrEmail " + user) );
 
-		userRepository.findAndSort("user", Sort.by("id").ascending())
+		userRepository
+				.findByBirthDateBetween(
+						LocalDate.of(2021, 3, 1),
+						LocalDate.of(2021, 4, 2)
+				)
 				.stream()
-				.forEach(user -> LOGGER.info("user with method sort " + user));
+				.forEach( user -> LOGGER.info("user findByBirthDateBetween " + user) );
+
+		userRepository
+				.findByNameContainingOrderByIdDesc("user")
+				.stream()
+				.forEach( user -> LOGGER.info("user founded with like and order by " + user) );
+
+		LOGGER.info("The user from named parameters are: " + userRepository.getAllByBirthDateAndEmail(LocalDate.of(2021, 07, 23),
+		"daniela@google.com")
+			.orElseThrow( ()-> new RuntimeException("user not found by named parameter") ));
+
 	}
 
 	private void saveUsersInDataBase(){
