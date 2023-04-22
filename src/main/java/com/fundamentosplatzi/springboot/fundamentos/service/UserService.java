@@ -18,7 +18,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    @Transactional
+    @Transactional // sin esta anotación registraría los usuarios sin usar rollback si hay un error de base de datos
     public void saveTransactional(List<User> users){
         users.stream()
                 .peek( user -> LOG.info("User Inserted " + user) )
