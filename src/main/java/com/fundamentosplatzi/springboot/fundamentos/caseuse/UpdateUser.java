@@ -13,7 +13,6 @@ public class UpdateUser {
     }
 
     public User update(User newUser, Long id) {
-        userService.update(newUser, id);
-        return newUser;
+        return userService.update(newUser, id);
     }
 }
